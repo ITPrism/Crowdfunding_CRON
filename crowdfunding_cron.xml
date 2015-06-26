@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="file" version="3.4" method="upgrade">
+	<name>Crowdfunding CRON</name>
+	<author>Todor Iliev</author>
+	<copyright>Copyright (C) 2015 Todor Iliev ( ITPrism.com )</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html</license>
+	<authorEmail>todor@itprism.com</authorEmail>
+	<authorUrl>http://itprism.com</authorUrl>
+	<version>1.0</version>
+	<creationDate>30 June, 2015</creationDate>
+	<description>Crowdfunding CRON is a CLI script that should be executed from command line as CRON job.</description>
+
+	<fileset>
+		<files target="cli/">
+			<filename>crowdfunding_cron.php</filename>
+		</files>
+	</fileset>
+</extension>
