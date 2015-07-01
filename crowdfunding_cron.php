@@ -53,14 +53,6 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Load Library language
-$lang = JFactory::getLanguage();
-
-// Try the crowdfunding_cron file in the current language (without allowing the loading of the file in the default language)
-$lang->load('crowdfunding_cron', JPATH_SITE, null, false, false)
-// Fallback to the crowdfunding_cron file in the default language
-|| $lang->load('crowdfunding_cron', JPATH_SITE, null, true);
-
 /**
  * A command line cron job to run the crowdfunding platform cron job.
  *
@@ -102,13 +94,32 @@ class CrowdfundingCronCli extends JApplicationCli
         JPluginHelper::importPlugin('crowdfundingcron');
 
         try {
+
             if ($notify) {
-                JEventDispatcher::getInstance()->trigger('onCronNotify', array("com_crowdfunding.cron.notify." . $context));
+
+                $context = "com_crowdfunding.cron.notify." . $context;
+                $this->out('notify context: '.$context);
+                $this->out('============================');
+
+                JEventDispatcher::getInstance()->trigger('onCronNotify', array($context));
+
             } elseif ($update) {
-                JEventDispatcher::getInstance()->trigger('onCronUpdate', array("com_crowdfunding.cron.update." . $context));
-            } else {
-                JEventDispatcher::getInstance()->trigger('onCronExecute', array("com_crowdfunding.cron." . $context));
+
+                $context = "com_crowdfunding.cron.update." . $context;
+                $this->out('update context: '.$context);
+                $this->out('============================');
+
+                JEventDispatcher::getInstance()->trigger('onCronUpdate', array($context));
+
+            } else { // Execute
+
+                $context = "com_crowdfunding.cron.execute." . $context;
+                $this->out('execute context: '.$context);
+                $this->out('============================');
+
+                JEventDispatcher::getInstance()->trigger('onCronExecute', array($context));
             }
+
         } catch (Exception $e) {
 
             $this->logErrors($e->getMessage());
