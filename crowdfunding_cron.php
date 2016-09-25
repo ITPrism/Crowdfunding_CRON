@@ -4,7 +4,7 @@
  * @subpackage   CLI
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2015 Todor Iliev <todor@itprism.com>. All rights reserved.
- * @license      http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license      GNU General Public License version 3 or later; see LICENSE.txt
  */
 
 /**
@@ -71,7 +71,7 @@ class CrowdfundingCronCli extends JApplicationCli
     public function doExecute()
     {
         // Print a blank line.
-        $this->out(JText::_('Crowdfunding CRON'));
+        $this->out('Crowdfunding CRON');
         $this->out('============================');
 
         // Initialize the time value.
@@ -94,18 +94,14 @@ class CrowdfundingCronCli extends JApplicationCli
         JPluginHelper::importPlugin('crowdfundingcron');
 
         try {
-
             if ($notify) {
-
-                $context = "com_crowdfunding.cron.notify." . $context;
+                $context = 'com_crowdfunding.cron.notify.' . $context;
                 $this->out('notify context: '.$context);
                 $this->out('============================');
 
                 JEventDispatcher::getInstance()->trigger('onCronNotify', array($context));
-
             } elseif ($update) {
-
-                $context = "com_crowdfunding.cron.update." . $context;
+                $context = 'com_crowdfunding.cron.update.' . $context;
                 $this->out('update context: '.$context);
                 $this->out('============================');
 
@@ -113,7 +109,7 @@ class CrowdfundingCronCli extends JApplicationCli
 
             } else { // Execute
 
-                $context = "com_crowdfunding.cron.execute." . $context;
+                $context = 'com_crowdfunding.cron.execute.' . $context;
                 $this->out('execute context: '.$context);
                 $this->out('============================');
 
@@ -121,10 +117,8 @@ class CrowdfundingCronCli extends JApplicationCli
             }
 
         } catch (Exception $e) {
-
             $this->logErrors($e->getMessage());
             $this->out($e->getMessage());
-
         }
 
         // Total reporting.
@@ -138,9 +132,9 @@ class CrowdfundingCronCli extends JApplicationCli
     {
         $config = JFactory::getConfig();
 
-        if (is_writable($config->get("log_path"))) {
-            $logFile = $config->get("log_path").DIRECTORY_SEPARATOR."error_cron.txt";
-            file_put_contents($logFile, $content ."\n", FILE_APPEND);
+        if (is_writable($config->get('log_path'))) {
+            $logFile = $config->get('log_path').DIRECTORY_SEPARATOR.'error_cron.txt';
+            file_put_contents($logFile, $content .'\n', FILE_APPEND);
         }
     }
 }
